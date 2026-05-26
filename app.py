@@ -263,27 +263,10 @@ def css() -> None:
             padding-top: 8px;
         }
         [data-testid="stVerticalBlock"]:has(.analysis-page-marker) [data-testid="stColumn"]:has(.upload-panel-anchor) > [data-testid="stVerticalBlock"] {
-            max-width: 760px; margin: 0 auto;
+            max-width: 560px; margin: 0 auto;
             border-color: var(--line) !important;
             box-shadow: var(--shadow) !important;
         }
-        .upload-preview-panel {
-            min-height: 210px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius);
-            background: linear-gradient(180deg, #fafcfb, #fff); box-shadow: inset 0 0 0 1px rgba(46,184,114,.06);
-            animation: fadeUp .5s ease both;
-        }
-        .upload-preview-panel.is-empty {
-            display: flex; align-items: center; justify-content: center; text-align: center;
-            color: var(--muted); font-size: .92rem; line-height: 1.55;
-            border-style: dashed; background: rgba(237,249,243,.55);
-        }
-        [data-testid="stColumn"]:has(.upload-preview-anchor) [data-testid="stImage"] {
-            border-radius: 8px; overflow: hidden; border: 1px solid var(--line);
-        }
-        [data-testid="stColumn"]:has(.upload-preview-anchor) [data-testid="stCaptionContainer"] {
-            text-align: center; color: var(--muted) !important; font-weight: 600;
-        }
-        .upload-split-marker { display: none !important; height: 0; margin: 0; padding: 0; }
         .signal-board { display: none; }
         .glass-card, .result-summary, .image-panel, .health-card, .research-card {
             border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
@@ -479,6 +462,26 @@ def css() -> None:
             margin-top: 8px; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius);
             background: linear-gradient(135deg, rgba(237,249,243,.96), rgba(255,255,255,.98));
             box-shadow: var(--shadow-soft);
+        }
+        .report-action-bar .stDownloadButton { width: 100%; }
+        .report-action-bar .stDownloadButton button {
+            min-height: 58px; width: 100%; padding: 0 44px; border: 0 !important; border-radius: 12px !important;
+            font-size: 1.14rem !important; font-weight: 800 !important; letter-spacing: .02em;
+            background: linear-gradient(135deg, var(--blue), var(--mint)) !important;
+            color: #fff !important; box-shadow: 0 14px 34px rgba(46,184,114,.32) !important;
+            animation: ctaPulse 2.5s ease-in-out infinite;
+            transition: transform .22s ease, box-shadow .22s ease !important;
+        }
+        .report-action-bar .stDownloadButton button:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 20px 44px rgba(46,184,114,.42) !important;
+            animation: none !important;
+        }
+        .report-action-bar .stDownloadButton button:active:not(:disabled) {
+            transform: translateY(-1px) scale(1.01) !important;
+        }
+        .report-action-bar .stDownloadButton button:disabled {
+            opacity: .55; animation: none !important;
         }
         .stButton button {
             min-height: 46px; border-radius: 10px; font-weight: 850; border: 0 !important;
@@ -866,38 +869,20 @@ def page_analysis() -> None:
             key="patient_name_input",
         )
         st.markdown('<p class="upload-hint">Chest X-ray file (JPG, JPEG, or PNG, max 8 MB)</p>', unsafe_allow_html=True)
-        st.markdown('<div class="upload-split-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
-        upload_col, preview_col = st.columns(2, gap="medium")
-        uploaded = None
-        preview_ready = False
-        with upload_col:
-            uploaded = st.file_uploader(
-                "Chest X-ray image",
-                type=["jpg", "jpeg", "png"],
-                label_visibility="collapsed",
-                key="chest_xray_uploader",
-            )
-            if uploaded is not None:
-                ok, message = validate_upload(uploaded)
-                if not ok:
-                    st.error(message)
-                else:
-                    xray_ok, xray_message = validate_chest_xray(uploaded)
-                    if not xray_ok:
-                        st.error(xray_message)
-                    else:
-                        preview_ready = True
-        with preview_col:
-            st.markdown('<div class="upload-preview-anchor" aria-hidden="true"></div>', unsafe_allow_html=True)
-            if preview_ready and uploaded is not None:
-                st.markdown('<div class="upload-preview-panel">', unsafe_allow_html=True)
-                show_upload_preview(uploaded)
-                st.markdown("</div>", unsafe_allow_html=True)
+        uploaded = st.file_uploader(
+            "Chest X-ray image",
+            type=["jpg", "jpeg", "png"],
+            label_visibility="collapsed",
+            key="chest_xray_uploader",
+        )
+        if uploaded is not None:
+            ok, message = validate_upload(uploaded)
+            if not ok:
+                st.error(message)
             else:
-                st.markdown(
-                    '<div class="upload-preview-panel is-empty">X-ray preview will appear here after a valid upload.</div>',
-                    unsafe_allow_html=True,
-                )
+                xray_ok, xray_message = validate_chest_xray(uploaded)
+                if not xray_ok:
+                    st.error(xray_message)
         models_ready, _ = check_model_files()
         run = st.button(
             "Run prediction",
