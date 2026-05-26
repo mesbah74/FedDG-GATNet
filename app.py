@@ -916,6 +916,7 @@ def page_analysis() -> None:
                     get_artifacts(),
                     uploads_dir=APP_ROOT / "uploads",
                     reports_dir=APP_ROOT / "reports",
+                    patient_name=patient_name_value,
                 )
                 st.session_state.patient_name = patient_name_value
                 st.session_state.navigate_to = "Result"

@@ -404,41 +404,51 @@ def create_prediction_report(image_path: Path, heatmap_path: Optional[Path], out
     body_font = load_report_font(24)
     small_font = load_report_font(20)
     label_font = load_report_font(21, True)
+    patient_font = load_report_font(22, True)
+    patient_name = str(payload.get("patient_name", "")).strip() or "Not provided"
+    header_patient_name = patient_name
+    if len(header_patient_name) > 42:
+        header_patient_name = header_patient_name[:39] + "..."
 
-    draw.rectangle((0, 0, width, 170), fill="#0b4fa3")
-    draw.rectangle((0, 160, width, 170), fill="#16a7c7")
-    draw.text((70, 46), "FedDG-PneuNet", font=title_font, fill="#ffffff")
-    draw.text((70, 108), "AI-Powered Pneumonia Detection Report", font=body_font, fill="#dff4ff")
-    draw.text((850, 58), "Prediction Timestamp", font=small_font, fill="#dff4ff")
-    draw.text((850, 90), payload["timestamp"], font=small_font, fill="#ffffff")
+    header_height = 210
+    accent_height = 12
+    draw.rectangle((0, 0, width, header_height - accent_height), fill="#0b4fa3")
+    draw.rectangle((0, header_height - accent_height, width, header_height), fill="#2eb872")
+    draw.text((70, 42), "FedDG-PneuNet", font=title_font, fill="#ffffff")
+    draw.text((70, 102), "AI-Powered Pneumonia Detection Report", font=body_font, fill="#dff4ff")
+    draw.text((850, 42), "Patient Name", font=small_font, fill="#dff4ff")
+    draw.text((850, 72), header_patient_name, font=patient_font, fill="#ffffff")
+    draw.text((850, 118), "Prediction Timestamp", font=small_font, fill="#dff4ff")
+    draw.text((850, 148), payload["timestamp"], font=small_font, fill="#ffffff")
 
-    draw.rounded_rectangle((70, 215, 1170, 430), radius=22, fill="#f7fbff", outline="#d7e4f1", width=2)
-    draw.text((100, 248), "Prediction Result", font=h2_font, fill="#111c2f")
+    draw.rounded_rectangle((70, 245, 1170, 460), radius=22, fill="#f7fbff", outline="#d7e4f1", width=2)
+    draw.text((100, 278), "Prediction Result", font=h2_font, fill="#111c2f")
     result_color = "#d64550" if payload["prediction"] == "Pneumonia" else "#12a37c"
-    draw.rounded_rectangle((100, 305, 430, 378), radius=20, fill=result_color)
-    draw.text((128, 324), payload["prediction"], font=load_report_font(34, True), fill="#ffffff")
-    draw.text((500, 292), "Confidence Score", font=label_font, fill="#63748d")
-    draw.text((500, 326), f"{payload['confidence']:.2f}%", font=load_report_font(42, True), fill="#0b4fa3")
-    draw.text((760, 292), "AI Model Information", font=label_font, fill="#63748d")
-    draw.text((760, 326), "FedDG-GATNet", font=load_report_font(28, True), fill="#111c2f")
-    draw.text((760, 365), "Federated Dynamic Graph Neural Network", font=small_font, fill="#63748d")
+    draw.rounded_rectangle((100, 335, 430, 408), radius=20, fill=result_color)
+    draw.text((128, 354), payload["prediction"], font=load_report_font(34, True), fill="#ffffff")
+    draw.text((500, 322), "Confidence Score", font=label_font, fill="#63748d")
+    draw.text((500, 356), f"{payload['confidence']:.2f}%", font=load_report_font(42, True), fill="#0b4fa3")
+    draw.text((760, 322), "AI Model Information", font=label_font, fill="#63748d")
+    draw.text((760, 356), "FedDG-GATNet", font=load_report_font(28, True), fill="#111c2f")
+    draw.text((760, 395), "Federated Dynamic Graph Neural Network", font=small_font, fill="#63748d")
 
-    paste_report_image(page, draw, image_path, (70, 480, 590, 960), "Uploaded Chest X-ray Image")
-    paste_report_image(page, draw, heatmap_path, (650, 480, 1170, 960), "Grad-CAM Heatmap Image")
+    paste_report_image(page, draw, image_path, (70, 510, 590, 990), "Uploaded Chest X-ray Image")
+    paste_report_image(page, draw, heatmap_path, (650, 510, 1170, 990), "Grad-CAM Heatmap Image")
 
-    draw.rounded_rectangle((70, 1015, 1170, 1195), radius=18, fill="#ffffff", outline="#d7e4f1", width=2)
-    draw.text((100, 1048), "Report Details", font=h2_font, fill="#111c2f")
-    draw.text((100, 1102), "Application Name: FedDG-PneuNet", font=body_font, fill="#111c2f")
-    draw.text((100, 1142), f"Pneumonia Probability: {payload['probability'] * 100:.2f}%", font=body_font, fill="#111c2f")
-    draw.text((650, 1102), f"Graph Nodes: {payload['graph_nodes']}", font=body_font, fill="#111c2f")
-    draw.text((650, 1142), f"Reference Neighbors: {payload['neighbors']}", font=body_font, fill="#111c2f")
+    draw.rounded_rectangle((70, 1045, 1170, 1250), radius=18, fill="#ffffff", outline="#d7e4f1", width=2)
+    draw.text((100, 1078), "Report Details", font=h2_font, fill="#111c2f")
+    draw.text((100, 1132), f"Patient Name: {patient_name}", font=body_font, fill="#111c2f")
+    draw.text((100, 1172), "Application Name: FedDG-PneuNet", font=body_font, fill="#111c2f")
+    draw.text((650, 1132), f"Pneumonia Probability: {payload['probability'] * 100:.2f}%", font=body_font, fill="#111c2f")
+    draw.text((650, 1172), f"Graph Nodes: {payload['graph_nodes']}", font=body_font, fill="#111c2f")
+    draw.text((100, 1212), f"Reference Neighbors: {payload['neighbors']}", font=body_font, fill="#111c2f")
 
-    draw.rounded_rectangle((70, 1250, 1170, 1455), radius=18, fill="#fff9ed", outline="#f0d8a8", width=2)
-    draw.text((100, 1285), "Medical Disclaimer", font=h2_font, fill="#8a5a00")
+    draw.rounded_rectangle((70, 1280, 1170, 1485), radius=18, fill="#fff9ed", outline="#f0d8a8", width=2)
+    draw.text((100, 1315), "Medical Disclaimer", font=h2_font, fill="#8a5a00")
     draw_wrapped_text(
         draw,
         "This system is intended for research and educational purposes only. It does not replace professional medical diagnosis or treatment. Please consult a licensed healthcare professional for clinical evaluation.",
-        (100, 1338),
+        (100, 1368),
         body_font,
         "#6e4a08",
         980,
@@ -452,7 +462,13 @@ def create_prediction_report(image_path: Path, heatmap_path: Optional[Path], out
     return output_path
 
 
-def run_prediction(uploaded_file: Any, artifacts: ModelArtifacts, uploads_dir: str | Path = "uploads", reports_dir: str | Path = "reports") -> dict[str, Any]:
+def run_prediction(
+    uploaded_file: Any,
+    artifacts: ModelArtifacts,
+    uploads_dir: str | Path = "uploads",
+    reports_dir: str | Path = "reports",
+    patient_name: str = "",
+) -> dict[str, Any]:
     if uploaded_file is None:
         raise ValueError("No chest X-ray file was provided.")
 
@@ -507,6 +523,7 @@ def run_prediction(uploaded_file: Any, artifacts: ModelArtifacts, uploads_dir: s
         "probability": round(float(pneumonia_probability), 6),
         "threshold": round(float(artifacts.threshold), 4),
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "patient_name": patient_name.strip() or "Not provided",
         "graph_nodes": artifacts.graph_nodes,
         "neighbors": required_neighbors,
         "normal_neighbors": int(np.sum(selected_labels < 0.5)),
