@@ -344,25 +344,31 @@ def css() -> None:
         .warning-icon { flex:0 0 auto; margin:0; color:var(--danger); background:#fff; }
         .medical-disclaimer-card { grid-template-columns:auto minmax(0,1fr); align-items:start; padding:22px; border-color:rgba(201,141,29,.34); background:rgba(255,249,237,.88); color:#6e4a08; line-height:1.7; }
         .medical-disclaimer-card .health-icon { color:var(--amber); margin:0; }
-        .footer { position:relative; overflow:hidden; margin-top:42px; border:1px solid rgba(255,255,255,.13); border-radius:8px; color:#eaf4ff; background:linear-gradient(135deg, rgba(12,29,51,.98), rgba(12,50,80,.96)); box-shadow:0 24px 70px rgba(17,28,47,.22); }
-        .footer:before { position:absolute; inset:0; content:""; background:linear-gradient(115deg,rgba(22,167,199,.20),transparent 36%,rgba(18,163,124,.14)); opacity:.82; pointer-events:none; }
-        .footer-brand { position:relative; display:grid; grid-template-columns:auto minmax(0,1fr); gap:14px; align-items:center; padding:28px; border-bottom:1px solid rgba(255,255,255,.10); }
+        .footer { position:relative; overflow:hidden; margin-top:42px; border:1px solid rgba(255,255,255,.18); border-radius:12px; color:#f4f9ff; background:linear-gradient(135deg, rgba(10,26,48,.99), rgba(11,44,72,.98)); box-shadow:0 24px 70px rgba(17,28,47,.28); }
+        .footer:before { position:absolute; inset:0; content:""; background:linear-gradient(115deg,rgba(22,167,199,.24),transparent 36%,rgba(18,163,124,.18)); opacity:.9; pointer-events:none; }
+        .footer-brand, .footer-grid, .footer-bottom { position:relative; z-index:1; }
+        .footer-brand { display:grid; grid-template-columns:auto minmax(0,1fr); gap:14px; align-items:center; padding:28px; border-bottom:1px solid rgba(255,255,255,.12); }
         .footer-mark { display:inline-grid; place-items:center; width:48px; height:48px; border-radius:8px; color:#fff; background:linear-gradient(135deg,var(--blue),var(--cyan),var(--mint)); font-weight:850; box-shadow:0 16px 34px rgba(22,167,199,.26); }
         .footer-brand strong { display:block; margin-bottom:6px; font-size:1.22rem; }
-        .footer-brand p { margin:0; max-width:680px; color:#b8cce0; line-height:1.6; }
+        .footer-brand p { margin:0; max-width:680px; color:#d2e3f2; line-height:1.65; }
         .footer-grid { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; padding:22px 28px 28px; }
         .footer-panel { min-height:190px; padding:18px; border:1px solid rgba(255,255,255,.10); border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.045)); backdrop-filter:blur(14px); transition:transform .18s ease, border-color .18s ease, background .18s ease; }
         .footer-panel:hover { border-color:rgba(22,167,199,.28); background:rgba(255,255,255,.085); transform:translateY(-3px); }
         .footer-panel h3 { margin-top:0; color:#fff; font-size:1rem; }
-        .footer-panel p { color:#b8cce0; line-height:1.8; margin:0; }
+        .footer-panel p { color:#d2e3f2; line-height:1.8; margin:0; }
         .footer-links { display:grid; gap:8px; }
-        .footer-link, .footer-email { display:flex; align-items:center; gap:8px; min-height:32px; color:#b8cce0; transition:color .16s ease, transform .16s ease; overflow-wrap:anywhere; }
+        .footer-link, .footer-email { display:flex; align-items:center; gap:8px; min-height:32px; color:#d2e3f2; transition:color .16s ease, transform .16s ease; overflow-wrap:anywhere; }
         .footer-link:before { display:inline-block; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,var(--cyan),var(--mint)); content:""; opacity:.78; }
         .footer-link:hover, .footer-email:hover { color:#fff; transform:translateX(3px); }
         .social-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
         .social-row span { display:grid; place-items:center; width:36px; height:36px; border:1px solid rgba(255,255,255,.12); border-radius:8px; color:#fff; background:rgba(255,255,255,.08); font-weight:850; text-transform:uppercase; transition:transform .18s ease, background .18s ease; }
         .social-row span:hover { transform:translateY(-2px); background:linear-gradient(135deg,var(--blue),var(--cyan)); }
-        .footer-bottom { position:relative; display:flex; justify-content:space-between; gap:16px; padding:16px 28px 20px; border-top:1px solid rgba(255,255,255,.10); color:#9fb5ca; font-size:.9rem; }
+        .footer-bottom { display:flex; justify-content:space-between; gap:16px; padding:18px 28px 22px; border-top:1px solid rgba(255,255,255,.14); color:#e2eef8; font-size:.92rem; font-weight:600; letter-spacing:.01em; }
+        .report-action-bar {
+            margin-top:8px; padding:18px 20px; border:1px solid var(--line); border-radius:var(--radius);
+            background:linear-gradient(135deg, rgba(236,246,255,.96), rgba(255,255,255,.98));
+            box-shadow:var(--shadow-soft);
+        }
         .stButton button {
             min-height:46px; border-radius:6px; font-weight:850;
             color: #fff !important; transition:transform .18s ease, box-shadow .18s ease;
@@ -541,8 +547,8 @@ def footer() -> None:
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 3.2V17h16V8.2l-8 5.3-8-5.3Zm1.2-1.2 6.8 4.5L18.8 7H5.2Z"/></svg>
                         ratulmesbah@gmail.com
                     </span>
-                    <div class="social-row" aria-label="Social media placeholders">
-                        <span>in</span><span>rg</span><span>gh</span>
+                    <div class="social-row" aria-label="Social media placeholder">
+                        <span>gh</span>
                     </div>
                 </div>
             </div>
@@ -878,7 +884,6 @@ def page_result() -> None:
     image_path = Path(str(result.get("image_path", "")))
     heatmap_path = Path(str(result["heatmap_path"])) if result.get("heatmap_path") else None
     report_path = Path(str(result.get("report_path", "")))
-    saved_prediction_path = Path(str(result.get("saved_prediction_path", "")))
 
     col1, col2 = st.columns(2)
     with col1:
@@ -897,27 +902,16 @@ def page_result() -> None:
         st.markdown("</div>", unsafe_allow_html=True)
 
     st.write("")
-    b1, b2, b3 = st.columns(3)
-    with b1:
-        st.download_button(
-            "Download PDF Report",
-            read_bytes(report_path),
-            file_name=report_path.name or "report.pdf",
-            mime="application/pdf",
-            use_container_width=True,
-            disabled=not report_path.is_file(),
-        )
-    with b2:
-        st.download_button(
-            "Save Prediction",
-            read_bytes(saved_prediction_path),
-            file_name=saved_prediction_path.name or "prediction.json",
-            mime="application/json",
-            use_container_width=True,
-            disabled=not saved_prediction_path.is_file(),
-        )
-    with b3:
-        st.markdown('<button onclick="window.print()" style="width:100%;min-height:46px;border:0;border-radius:6px;background:#ecf6ff;color:#0b3f93;font-weight:850;cursor:pointer;">Print Report</button>', unsafe_allow_html=True)
+    st.markdown('<div class="report-action-bar">', unsafe_allow_html=True)
+    st.download_button(
+        "Download PDF Report",
+        read_bytes(report_path),
+        file_name=report_path.name or "report.pdf",
+        mime="application/pdf",
+        use_container_width=True,
+        disabled=not report_path.is_file(),
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
 
 
 def card_grid(items: Iterable[tuple[str, str, str]]) -> None:
