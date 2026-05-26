@@ -241,9 +241,20 @@ def css() -> None:
             background: linear-gradient(105deg, #edf9f3 0%, #edf9f3 48%, var(--blue) 48%, #289e66 100%);
             box-shadow: 0 20px 52px rgba(46,184,114,.16);
         }
-        [data-testid="stVerticalBlock"]:has(.home-hero-marker) [data-testid="stColumn"]:has(.upload-panel-anchor) > [data-testid="stVerticalBlock"] {
-            border-color: rgba(255,255,255,.65) !important;
-            box-shadow: 0 22px 48px rgba(0,0,0,.14) !important;
+        [data-testid="stVerticalBlock"]:has(.home-hero-marker) [data-testid="stColumn"]:has(.hero-copy) .stButton {
+            margin-top: 26px; max-width: 220px;
+        }
+        [data-testid="stVerticalBlock"]:has(.home-hero-marker) [data-testid="stColumn"]:has(.hero-copy) .stButton button {
+            min-height: 48px; padding: 0 28px; border-radius: 10px !important;
+            font-size: 1rem !important; font-weight: 800 !important;
+        }
+        [data-testid="stVerticalBlock"]:has(.analysis-page-marker) {
+            padding-top: 8px;
+        }
+        [data-testid="stVerticalBlock"]:has(.analysis-page-marker) [data-testid="stColumn"]:has(.upload-panel-anchor) > [data-testid="stVerticalBlock"] {
+            max-width: 560px; margin: 0 auto;
+            border-color: var(--line) !important;
+            box-shadow: var(--shadow) !important;
         }
         .signal-board { display: none; }
         .glass-card, .result-summary, .image-panel, .health-card, .research-card {
@@ -783,51 +794,29 @@ def svg_icon(name: str) -> str:
     return f'<svg viewBox="0 0 24 24" aria-hidden="true">{MEDICAL_ICONS.get(name, MEDICAL_ICONS["default"])}</svg>'
 
 
-def page_home() -> None:
-    st.markdown('<div class="home-hero-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
-    left, right = st.columns([1.15, 0.85], gap="large")
-    with left:
-        st.markdown(
-            """
-            <div class="hero-copy">
-                <p class="hero-badge">Chest X-ray diagnostic intelligence</p>
-                <h1 class="hero-title">
-                    <span class="main">FedDG-GATNet</span>
-                    <span class="sub">A Federated Dynamic Graph-Based</span>
-                    <span class="sub">Pneumonia Detection Framework</span>
-                </h1>
-                <p class="lead">
-                    Upload a frontal chest radiograph and run the FedDG-GATNet hybrid pipeline with feature extraction,
-                    dynamic graph construction, graph attention inference, and Grad-CAM visualization.
-                </p>
-                <div class="status-row">
-                    <span><b>Model</b> FedDG-GATNet</span>
-                    <span><b>Input</b> 224 x 224 RGB</span>
-                    <span><b>Runtime</b> Python + Streamlit</span>
-                </div>
+def hero_visual_html() -> str:
+    return """
+        <div class="hero-visual" aria-hidden="true">
+            <span class="hero-wave"></span>
+            <span class="hero-dot-grid"></span>
+            <div class="hero-figure">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v7a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3v-7H8a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5Zm-3 6a3 3 0 0 0 0 6h6a3 3 0 0 0 0-6H9Z"/>
+                </svg>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    with right:
-        st.markdown(
-            """
-            <div class="hero-visual" aria-hidden="true">
-                <span class="hero-wave"></span>
-                <span class="hero-dot-grid"></span>
-                <div class="hero-figure">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1v7a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3v-7H8a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5Zm-3 6a3 3 0 0 0 0 6h6a3 3 0 0 0 0-6H9Z"/>
-                    </svg>
-                </div>
-                <div class="hero-chip">
-                    <span class="dots"><i></i><i></i><i></i><i></i></span>
-                    <span><strong>AI Pipeline</strong><br>FedDG · GAT · Grad-CAM</span>
-                </div>
+            <div class="hero-chip">
+                <span class="dots"><i></i><i></i><i></i><i></i></span>
+                <span><strong>AI Pipeline</strong><br>FedDG · GAT · Grad-CAM</span>
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        </div>
+        """
+
+
+def page_analysis() -> None:
+    st.markdown('<div class="analysis-page-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
+    _, center, _ = st.columns([1, 1.35, 1])
+    with center:
+        st.markdown(hero_visual_html(), unsafe_allow_html=True)
         st.markdown('<div class="upload-panel-anchor" aria-hidden="true"></div>', unsafe_allow_html=True)
         st.markdown(
             """
@@ -902,6 +891,39 @@ def page_home() -> None:
             return
         st.rerun()
 
+
+def page_home() -> None:
+    st.markdown('<div class="home-hero-marker" aria-hidden="true"></div>', unsafe_allow_html=True)
+    left, right = st.columns([1.15, 0.85], gap="large")
+    with left:
+        st.markdown(
+            """
+            <div class="hero-copy">
+                <p class="hero-badge">Chest X-ray diagnostic intelligence</p>
+                <h1 class="hero-title">
+                    <span class="main">FedDG-GATNet</span>
+                    <span class="sub">A Federated Dynamic Graph-Based</span>
+                    <span class="sub">Pneumonia Detection Framework</span>
+                </h1>
+                <p class="lead">
+                    Upload a frontal chest radiograph and run the FedDG-GATNet hybrid pipeline with feature extraction,
+                    dynamic graph construction, graph attention inference, and Grad-CAM visualization.
+                </p>
+                <div class="status-row">
+                    <span><b>Model</b> FedDG-GATNet</span>
+                    <span><b>Input</b> 224 x 224 RGB</span>
+                    <span><b>Runtime</b> Python + Streamlit</span>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        if st.button("Get Started", type="primary", key="home_get_started"):
+            st.session_state.navigate_to = "Analysis"
+            st.rerun()
+    with right:
+        st.markdown(hero_visual_html(), unsafe_allow_html=True)
+
     st.markdown(
         """
         <div class="workflow-band">
@@ -919,9 +941,9 @@ def page_result() -> None:
     result = st.session_state.get("result")
     st.markdown('<div class="page-heading"><p class="eyebrow">Diagnostic output</p><h1>Prediction Result</h1><p>Review the graph-based classification, confidence score, uploaded image, Grad-CAM heatmap, and generated report.</p></div>', unsafe_allow_html=True)
     if not result:
-        st.info("No result yet. Upload a chest X-ray from Home to run a FedDG-GATNet prediction.")
+        st.info("No result yet. Click Get Started on Home to upload a chest X-ray and run a FedDG-GATNet prediction.")
         if st.button("Start analysis", type="primary"):
-            st.session_state.navigate_to = "Home"
+            st.session_state.navigate_to = "Analysis"
             st.rerun()
         return
 
@@ -1122,7 +1144,10 @@ def render_model_status() -> None:
 def _apply_pending_navigation() -> None:
     """Set nav page before the radio widget renders (Streamlit session-state rule)."""
     pending = st.session_state.pop("navigate_to", None)
-    if pending in NAV_PAGES:
+    if pending == "Analysis":
+        st.session_state.app_screen = "analysis"
+    elif pending in NAV_PAGES:
+        st.session_state.app_screen = None
         st.session_state.page = pending
     elif "page" not in st.session_state or st.session_state.page not in NAV_PAGES:
         st.session_state.page = "Home"
@@ -1146,7 +1171,12 @@ def _run_app() -> None:
         )
         st.markdown("</div>", unsafe_allow_html=True)
 
-    if page == "Home":
+    if page != "Home":
+        st.session_state.app_screen = None
+
+    if st.session_state.get("app_screen") == "analysis":
+        page_analysis()
+    elif page == "Home":
         page_home()
     elif page == "Result":
         page_result()
