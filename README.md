@@ -1,6 +1,6 @@
-# FedDG-PneuNet Streamlit App
+# FedDG-GATNet Streamlit App
 
-Pure Python Streamlit version of FedDG-PneuNet for Streamlit Community Cloud. This version removes PHP and keeps the same AI workflow, medical dashboard UI, Grad-CAM output, PDF report download, JSON prediction save, and healthcare awareness pages.
+Pure Python Streamlit version of FedDG-GATNet for Streamlit Community Cloud. This version removes PHP and keeps the same AI workflow, medical dashboard UI, Grad-CAM output, PDF report download, JSON prediction save, and healthcare awareness pages.
 
 ## Run locally
 

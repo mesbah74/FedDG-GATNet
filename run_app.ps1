@@ -1,4 +1,4 @@
-# FedDG-PneuNet Streamlit launcher (uses local .venv)
+# FedDG-GATNet Streamlit launcher (uses local .venv)
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 

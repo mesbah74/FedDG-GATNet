@@ -414,7 +414,7 @@ def create_prediction_report(image_path: Path, heatmap_path: Optional[Path], out
     accent_height = 12
     draw.rectangle((0, 0, width, header_height - accent_height), fill="#0b4fa3")
     draw.rectangle((0, header_height - accent_height, width, header_height), fill="#2eb872")
-    draw.text((70, 42), "FedDG-PneuNet", font=title_font, fill="#ffffff")
+    draw.text((70, 42), "FedDG-GATNet", font=title_font, fill="#ffffff")
     draw.text((70, 102), "AI-Powered Pneumonia Detection Report", font=body_font, fill="#dff4ff")
     draw.text((850, 42), "Patient Name", font=small_font, fill="#dff4ff")
     draw.text((850, 72), header_patient_name, font=patient_font, fill="#ffffff")
@@ -438,7 +438,7 @@ def create_prediction_report(image_path: Path, heatmap_path: Optional[Path], out
     draw.rounded_rectangle((70, 1045, 1170, 1250), radius=18, fill="#ffffff", outline="#d7e4f1", width=2)
     draw.text((100, 1078), "Report Details", font=h2_font, fill="#111c2f")
     draw.text((100, 1132), f"Patient Name: {patient_name}", font=body_font, fill="#111c2f")
-    draw.text((100, 1172), "Application Name: FedDG-PneuNet", font=body_font, fill="#111c2f")
+    draw.text((100, 1172), "Application Name: FedDG-GATNet", font=body_font, fill="#111c2f")
     draw.text((650, 1132), f"Pneumonia Probability: {payload['probability'] * 100:.2f}%", font=body_font, fill="#111c2f")
     draw.text((650, 1172), f"Graph Nodes: {payload['graph_nodes']}", font=body_font, fill="#111c2f")
     draw.text((100, 1212), f"Reference Neighbors: {payload['neighbors']}", font=body_font, fill="#111c2f")
@@ -455,7 +455,7 @@ def create_prediction_report(image_path: Path, heatmap_path: Optional[Path], out
     )
 
     draw.rectangle((0, height - 94, width, height), fill="#0f1d31")
-    draw.text((70, height - 62), "FedDG-PneuNet Medical AI Research Platform", font=small_font, fill="#ffffff")
+    draw.text((70, height - 62), "FedDG-GATNet Medical AI Research Platform", font=small_font, fill="#ffffff")
     draw.text((760, height - 62), "Generated for educational and research use", font=small_font, fill="#c7d7e8")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     page.save(output_path, "PDF", resolution=150.0)
@@ -517,7 +517,7 @@ def run_prediction(
 
     payload: dict[str, Any] = {
         "ok": True,
-        "application": "FedDG-PneuNet",
+        "application": "FedDG-GATNet",
         "prediction": prediction,
         "confidence": round(float(confidence * 100.0), 2),
         "probability": round(float(pneumonia_probability), 6),

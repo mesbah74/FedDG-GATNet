@@ -1,4 +1,4 @@
-# FedDG-PneuNet Streamlit Deployment Guide
+# FedDG-GATNet Streamlit Deployment Guide
 
 This folder is the PHP-free Streamlit version of the app. It keeps the same core features:
 
@@ -45,7 +45,7 @@ git init
 git lfs install
 git add .gitattributes
 git add .
-git commit -m "Deploy FedDG-PneuNet Streamlit app"
+git commit -m "Deploy FedDG-GATNet Streamlit app"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
 git push -u origin main
